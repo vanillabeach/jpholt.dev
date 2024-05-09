@@ -1,0 +1,9 @@
+:root {
+  --background-color: #888;
+  --brand-black: #000;
+  --brand-blue: #0d58d3;
+  --brand-purple: #f0f;
+  --brand-white: #fff;
+  --nav-bar-height: 3rem;
+  --max-mobile-width: 700px;
+}

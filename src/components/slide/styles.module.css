@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+
+  @media (min-width: 1200px) or (min-height: 750px) {
+    height: 100vh;
+  }
+}

@@ -1,0 +1,8 @@
+.canvas {
+  transition: opacity 200ms ease-in;
+  opacity: 1;
+}
+
+.canvas.show {
+  opacity: 1;
+}

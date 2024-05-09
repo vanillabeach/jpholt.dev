@@ -1,0 +1,22 @@
+@import url('../../styles/common.css');
+
+.date {
+  font-family: 'Krona One';
+  font-size: 300%;
+}
+
+.black {
+  color: var(--brand-black);
+}
+
+.blue {
+  color: var(--brand-blue);
+}
+
+.purple {
+  color: var(--brand-purple);
+}
+
+.white {
+  color: var(--brand-white);
+}
