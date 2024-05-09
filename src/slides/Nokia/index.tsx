@@ -37,7 +37,7 @@ export default function Nokia() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="blue">2009</Year>
-            <h1 className="text-4xl font-medium mb-3">NOKIA</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>NOKIA</h1>
             <p className="mb-3">
               Nokia is a Finnish multinational company that specialises in telecommunications. Back in 2012 it was also
               a market leader in mobile smartphones.

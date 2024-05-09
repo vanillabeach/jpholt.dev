@@ -10,7 +10,7 @@
     min-height: 76px;
   }
 
-  @media (min-width: 1600px) and (min-height: 950px) {
+  @media (min-width: 1500px) and (min-height: 950px) {
     font-size: 150%;
   }
 }

@@ -38,7 +38,7 @@ export default function Phaidra() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="blue">2023</Year>
-            <h2 className="text-4xl font-medium mb-3">PHAIDRA</h2>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>PHAIDRA</h1>
             <p className="mb-3">
               Phaidra is an Artificial Intelligence company pioneering in energy saving and optimisation. Founded by two
               former DeepMind engineers, Phaidra is dedicated to using machine learning to predict and pre-empt energy

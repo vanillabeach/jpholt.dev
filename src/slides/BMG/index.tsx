@@ -36,7 +36,7 @@ export default function BMG() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="blue">2002</Year>
-            <h1 className="text-4xl font-medium mb-3">BERTELSMANN MEDIA GROUP</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>BERTELSMANN MEDIA GROUP</h1>
             <p className="mb-3">
               Berteslmann Media Group was one of the original "
               <a

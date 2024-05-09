@@ -44,7 +44,7 @@ export default function GoogleHealth() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="purple">2019</Year>
-            <h1 className="text-4xl font-medium mb-3">GOOGLE HEALTH</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>GOOGLE HEALTH</h1>
             <p className="mb-3">
               Google Health is a division of Alphabet dedicated to improving patient outcomes through better hardware
               and software applications.

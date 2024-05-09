@@ -35,7 +35,7 @@ export default function Channel4() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="purple">2012</Year>
-            <h1 className="text-4xl font-medium mb-3">CHANNEL 4</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>CHANNEL 4</h1>
             <p className="mb-3">
               Channel 4 is one of UK's best known commercial television stations, with a strong internet presence thanks
               to their on-demand web and mobile applications.

@@ -44,7 +44,7 @@ export default function Symbian() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="purple">2004</Year>
-            <h1 className="text-4xl font-medium mb-3">SYMBIAN</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>SYMBIAN</h1>
             <p className="mb-3">
               Symbian was the first company to develop the "smartphone" OS, and was acquired by Nokia in 2008. At its
               peak, Symbian had a 73% share of the smarphone market and was used by companies including Motorola, LG,

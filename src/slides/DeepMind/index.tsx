@@ -42,7 +42,7 @@ export default function DeepMind() {
         <section className={classNames.copyContainer}>
           <div className={classNames.copy}>
             <Year color="blue">2013</Year>
-            <h1 className="text-4xl font-medium mb-3">DEEPMIND</h1>
+            <h1 className={`text-4xl font-medium mb-3 ${classNames.title}`}>DEEPMIND</h1>
             <p className="mb-3">
               DeepMind is one of the foremost organisations in field of Artificial General Intelligence. Founded in
               2010, DeepMind was an early pioneer in researching and applying the modern implementations of both deep
