@@ -3,14 +3,15 @@ import classNames from './styles.module.css';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 export interface BackgroundProps {
-  url: string;
-  scroll?: boolean;
   children: React.ReactNode;
   color?: string;
+  overscan?: number;
+  scroll?: boolean;
+  url: string;
 }
 
 export default function Background(props: BackgroundProps) {
-  const { color = 'transparent', url, scroll = false, children } = props;
+  const { color = 'transparent', url, scroll = false, overscan = 100, children } = props;
   const parentContainerRef = useRef<HTMLDivElement>(null!);
   const canvasRef = useRef<HTMLCanvasElement>(null!);
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
@@ -18,8 +19,6 @@ export default function Background(props: BackgroundProps) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>();
 
   const paintBackground = useCallback(() => {
-    console.log('paintBackground', ctx, backgroundMediaLoaded, canvasRef);
-
     if (!ctx || !backgroundMediaLoaded || !backgroundImage || !canvasRef?.current) {
       return;
     }
@@ -31,8 +30,8 @@ export default function Background(props: BackgroundProps) {
 
     const imageWidth = backgroundImage.width;
     const imageHeight = backgroundImage.height;
-    const canvasWidth = canvas.offsetWidth;
-    const canvasHeight = canvas.offsetHeight;
+    const canvasWidth = canvas.offsetWidth + overscan;
+    const canvasHeight = canvas.offsetHeight + overscan;
     let imageRatio: number;
     let newImageWidth = 0;
     let newImageHeight = 0;
@@ -53,7 +52,11 @@ export default function Background(props: BackgroundProps) {
       newImageHeight = newImageHeight * delta;
     }
 
-    ctx.drawImage(backgroundImage, 0, 0, newImageWidth, newImageHeight);
+    const x = canvasWidth - newImageWidth;
+    const y = -((canvas.offsetHeight - canvas.getBoundingClientRect().top) / canvas.offsetHeight) * (overscan / 2);
+
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(backgroundImage, x, y, newImageWidth, newImageHeight);
   }, [backgroundImage, backgroundMediaLoaded, ctx]);
 
   useEffect(() => {
@@ -75,9 +78,8 @@ export default function Background(props: BackgroundProps) {
     if (!canvasRef?.current || !backgroundMediaLoaded) {
       return;
     }
-    console.log('setting ctx....');
     const canvas = canvasRef.current;
-    setCtx(canvas.getContext('2d', { alpha: true }));
+    setCtx(canvas.getContext('2d', { alpha: false }));
   }, [backgroundMediaLoaded, canvasRef, ctx]);
 
   const resize = useCallback(() => {
@@ -99,16 +101,28 @@ export default function Background(props: BackgroundProps) {
 
   useEffect(() => {
     window.addEventListener('resize', resize);
+    window.addEventListener('scroll', paintBackground);
 
     return () => {
       window.removeEventListener('resize', resize);
+      window.removeEventListener('scroll', paintBackground);
     };
   }, [resize]);
 
+  const containerStyle: React.CSSProperties = scroll
+    ? {}
+    : {
+        backgroundImage: `url(${url})`,
+        backgroundColor: color,
+      };
+  const contentStyle: React.CSSProperties = scroll ? { position: 'relative' } : {};
+
   return (
-    <div className={classNames.container} style={{ backgroundColor: color }} ref={parentContainerRef}>
+    <div className={classNames.container} style={containerStyle} ref={parentContainerRef}>
       {scroll && backgroundMediaLoaded && <canvas className={classNames.canvas} ref={canvasRef}></canvas>}
-      <div className={classNames.content}>{children}</div>
+      <div className={classNames.content} style={contentStyle}>
+        {children}
+      </div>
     </div>
   );
 }
