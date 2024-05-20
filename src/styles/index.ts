@@ -11,6 +11,10 @@ export class Colors {
     toHexString: '#ff00ff',
     toHexValue: 0xff00ff,
   };
+  static Transparent = {
+    toHexString: '#00000000',
+    toHexValue: 0x00000000,
+  };
   static White = {
     toHexString: '#ffffff',
     toHexValue: 0xffffff,

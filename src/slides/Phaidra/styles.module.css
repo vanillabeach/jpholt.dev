@@ -42,10 +42,6 @@
   padding-left: 24px;
   padding-right: 24px;
   box-sizing: border-box;
-
-  @media (max-width: 700px) {
-    background-color: var(--brand-black, #000000);
-  }
 }
 
 .content {

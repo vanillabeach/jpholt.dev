@@ -7,17 +7,23 @@ export interface BackgroundProps {
   color?: string;
   overscan?: number;
   scroll?: boolean;
+  show?: boolean;
   url: string;
 }
 
 export default function Background(props: BackgroundProps) {
-  const { color = 'transparent', url, scroll = false, overscan, children } = props;
+  const { color = 'transparent', url, scroll = false, show = true, overscan, children } = props;
   const parentContainerRef = useRef<HTMLDivElement>(null!);
   const canvasRef = useRef<HTMLCanvasElement>(null!);
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [backgroundMediaLoaded, setBackgroundMediaLoaded] = useState<boolean>(false);
   const [backgroundOverscan, setBackgroundOverscan] = useState<number>(overscan !== undefined ? overscan : 0);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>();
+  const [showCanvas, setShowCanvas] = useState<boolean>(show && scroll);
+
+  useEffect(() => {
+    setShowCanvas(scroll && show);
+  }, [scroll, show]);
 
   useEffect(() => {
     if (overscan !== undefined || !canvasRef?.current) {
@@ -70,9 +76,16 @@ export default function Background(props: BackgroundProps) {
     const y =
       -((canvas.offsetHeight - canvas.getBoundingClientRect().top) / canvas.offsetHeight) * (backgroundOverscan / 2);
 
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(backgroundImage, x, y, newImageWidth, newImageHeight);
-  }, [backgroundImage, backgroundMediaLoaded, backgroundOverscan, ctx]);
+  }, [backgroundImage, backgroundMediaLoaded, backgroundOverscan, color, ctx]);
+
+  useEffect(() => {
+    if (show && scroll && backgroundMediaLoaded === true) {
+      paintBackground();
+    }
+  }, [show, scroll, backgroundMediaLoaded, paintBackground]);
 
   const resize = useCallback(() => {
     if (!canvasRef?.current || !parentContainerRef?.current) {
@@ -124,17 +137,24 @@ export default function Background(props: BackgroundProps) {
     };
   }, [resize, paintBackground]);
 
-  const containerStyle: React.CSSProperties = scroll
-    ? {}
-    : {
-        backgroundImage: `url(${url})`,
-        backgroundColor: color,
-      };
+  const containerStyle: React.CSSProperties =
+    scroll !== true && show === true
+      ? {
+          backgroundImage: `url(${url})`,
+          backgroundColor: color,
+        }
+      : {};
   const contentStyle: React.CSSProperties = scroll ? { position: 'relative' } : {};
 
   return (
     <div className={classNames.container} style={containerStyle} ref={parentContainerRef}>
-      {scroll && backgroundMediaLoaded && <canvas className={classNames.canvas} ref={canvasRef}></canvas>}
+      {
+        <canvas
+          className={classNames.canvas}
+          ref={canvasRef}
+          style={{ display: showCanvas ? 'block' : 'none' }}
+        ></canvas>
+      }
       <div className={classNames.content} style={contentStyle}>
         {children}
       </div>
