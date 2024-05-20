@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 
 import Soundwaves from './components/soundwaves';
 import classNames from './styles.module.css';
-import BackgroundImage from './images/background2.svg';
+import BackgroundImage from './images/background.svg';
 import debounce from 'debounce';
 import { config } from '../../data/config';
 import Year from '../../components/year/year';

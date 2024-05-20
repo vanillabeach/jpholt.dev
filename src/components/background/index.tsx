@@ -11,12 +11,21 @@ export interface BackgroundProps {
 }
 
 export default function Background(props: BackgroundProps) {
-  const { color = 'transparent', url, scroll = false, overscan = 100, children } = props;
+  const { color = 'transparent', url, scroll = false, overscan, children } = props;
   const parentContainerRef = useRef<HTMLDivElement>(null!);
   const canvasRef = useRef<HTMLCanvasElement>(null!);
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [backgroundMediaLoaded, setBackgroundMediaLoaded] = useState<boolean>(false);
+  const [backgroundOverscan, setBackgroundOverscan] = useState<number>(overscan !== undefined ? overscan : 0);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>();
+
+  useEffect(() => {
+    if (overscan !== undefined || !canvasRef?.current) {
+      return;
+    }
+
+    setBackgroundOverscan(canvasRef.current.offsetHeight);
+  }, [overscan]);
 
   const paintBackground = useCallback(() => {
     if (!ctx || !backgroundMediaLoaded || !backgroundImage || !canvasRef?.current) {
@@ -30,8 +39,8 @@ export default function Background(props: BackgroundProps) {
 
     const imageWidth = backgroundImage.width;
     const imageHeight = backgroundImage.height;
-    const canvasWidth = canvas.offsetWidth + overscan;
-    const canvasHeight = canvas.offsetHeight + overscan;
+    const canvasWidth = canvas.offsetWidth;
+    const canvasHeight = canvas.offsetHeight;
     let imageRatio: number;
     let newImageWidth = 0;
     let newImageHeight = 0;
@@ -48,39 +57,22 @@ export default function Background(props: BackgroundProps) {
 
     if (newImageHeight < canvasHeight) {
       const delta = canvasHeight / newImageHeight;
-      newImageWidth = newImageWidth * delta;
-      newImageHeight = newImageHeight * delta;
+      newImageHeight *= delta;
+      newImageWidth *= delta;
     }
 
-    const x = canvasWidth - newImageWidth;
-    const y = -((canvas.offsetHeight - canvas.getBoundingClientRect().top) / canvas.offsetHeight) * (overscan / 2);
+    setBackgroundOverscan(newImageHeight * 0.2);
+
+    newImageWidth += backgroundOverscan;
+    newImageHeight += backgroundOverscan;
+
+    const x = (canvasWidth - newImageWidth) / 2;
+    const y =
+      -((canvas.offsetHeight - canvas.getBoundingClientRect().top) / canvas.offsetHeight) * (backgroundOverscan / 2);
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(backgroundImage, x, y, newImageWidth, newImageHeight);
-  }, [backgroundImage, backgroundMediaLoaded, ctx]);
-
-  useEffect(() => {
-    if (backgroundMediaLoaded === false) {
-      const image = new Image();
-      image.src = url;
-      image.onload = () => {
-        setBackgroundImage(image);
-        setBackgroundMediaLoaded(true);
-      };
-      paintBackground();
-      return;
-    }
-
-    resize();
-  }, [backgroundImage, backgroundMediaLoaded, paintBackground, url]);
-
-  useEffect(() => {
-    if (!canvasRef?.current || !backgroundMediaLoaded) {
-      return;
-    }
-    const canvas = canvasRef.current;
-    setCtx(canvas.getContext('2d', { alpha: false }));
-  }, [backgroundMediaLoaded, canvasRef, ctx]);
+  }, [backgroundImage, backgroundMediaLoaded, backgroundOverscan, ctx]);
 
   const resize = useCallback(() => {
     if (!canvasRef?.current || !parentContainerRef?.current) {
@@ -100,6 +92,29 @@ export default function Background(props: BackgroundProps) {
   }, [canvasRef, paintBackground]);
 
   useEffect(() => {
+    if (backgroundMediaLoaded === false) {
+      const image = new Image();
+      image.src = url;
+      image.onload = () => {
+        setBackgroundImage(image);
+        setBackgroundMediaLoaded(true);
+      };
+      paintBackground();
+      return;
+    }
+
+    resize();
+  }, [backgroundImage, backgroundMediaLoaded, paintBackground, resize, url]);
+
+  useEffect(() => {
+    if (!canvasRef?.current || !backgroundMediaLoaded) {
+      return;
+    }
+    const canvas = canvasRef.current;
+    setCtx(canvas.getContext('2d', { alpha: false }));
+  }, [backgroundMediaLoaded, canvasRef, ctx]);
+
+  useEffect(() => {
     window.addEventListener('resize', resize);
     window.addEventListener('scroll', paintBackground);
 
@@ -107,7 +122,7 @@ export default function Background(props: BackgroundProps) {
       window.removeEventListener('resize', resize);
       window.removeEventListener('scroll', paintBackground);
     };
-  }, [resize]);
+  }, [resize, paintBackground]);
 
   const containerStyle: React.CSSProperties = scroll
     ? {}

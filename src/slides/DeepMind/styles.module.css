@@ -3,7 +3,6 @@
 .container {
   width: 100%;
   height: 100%;
-  background-color: #010e16;
   background-position: center center;
   background-size: cover;
   color: var(--brand-white, #ffffff);
