@@ -1,6 +1,6 @@
 # JPHOLT.DEV
 
-This is the source code for my [résumé website](https://jpholt.dev). If you are a ux or front end engineer, you might find it useful to better understand how I architect and write code. Please feel free to reach out to me at [john@jpholt.dev](mailto:john@jpholt.dev).
+This is the source code for my [résumé website](https://jpholt.dev). If you are a UX or Front End engineer, you might find it useful to better understand how I architect and write code. Please feel free to reach out to me at [john@jpholt.dev](mailto:john@jpholt.dev).
 
 ### Tech Stack:
 
