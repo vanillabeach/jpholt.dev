@@ -32,6 +32,23 @@ export default function Background(props: BackgroundProps) {
   );
 
   useEffect(() => {
+    if (!parentContainerRef?.current) {
+      return;
+    }
+
+    const parentContainer = parentContainerRef.current;
+    if (parentContainer.classList.contains('show') === false) {
+      const background = new Image();
+      background.src = url;
+      background.onload = () => {
+        console.log('image loaded from', url, parentContainer);
+
+        parentContainer.classList.add(classNames.show);
+      };
+    }
+  }, [url]);
+
+  useEffect(() => {
     setShowCanvas(show === BackgroundVisibility.all || show === BackgroundVisibility.canvas);
   }, [scroll, show]);
 

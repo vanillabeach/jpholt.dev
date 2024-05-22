@@ -1,4 +1,5 @@
 .canvas {
+  background-color: var(--brand-white, #ffffff);
   transition: opacity 200ms ease-in;
   opacity: 0;
   width: 100%;
