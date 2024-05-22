@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 
 import classNames from './styles.module.css';
-import Background from '../../components/background';
+import Background, { BackgroundVisibility } from '../../components/background';
 import BackgroundImage from './images/deepmind-bg.webp';
 import DeepMindCubes from './components/deepmindCubes';
 import debounce from 'debounce';
@@ -35,7 +35,12 @@ export default function DeepMind() {
   }, [slideContainer, slideContainerRef]);
 
   return (
-    <Background url={BackgroundImage} color={Colors.Black.toHexString} scroll>
+    <Background
+      url={BackgroundImage}
+      color={showFullContent ? Colors.Transparent.toHexString : Colors.Black.toHexString}
+      scroll={window.innerWidth < config.mobileWaxWidth}
+      show={showFullContent ? BackgroundVisibility.backgroundImage : BackgroundVisibility.canvas}
+    >
       <div className={classNames.container} ref={slideContainerRef}>
         <div className={classNames.content}>
           <section className={classNames.copyContainer}>

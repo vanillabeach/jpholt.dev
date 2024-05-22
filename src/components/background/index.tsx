@@ -2,27 +2,37 @@ import { isWithinViewport } from '../../utils';
 import classNames from './styles.module.css';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
+export enum BackgroundVisibility {
+  all,
+  backgroundColor,
+  backgroundImage,
+  canvas,
+  hide,
+}
+
 export interface BackgroundProps {
   children: React.ReactNode;
   color?: string;
   overscan?: number;
   scroll?: boolean;
-  show?: boolean;
+  show?: BackgroundVisibility;
   url: string;
 }
 
 export default function Background(props: BackgroundProps) {
-  const { color = 'transparent', url, scroll = false, show = true, overscan, children } = props;
+  const { color = 'transparent', url, scroll = false, show = BackgroundVisibility.all, overscan, children } = props;
   const parentContainerRef = useRef<HTMLDivElement>(null!);
   const canvasRef = useRef<HTMLCanvasElement>(null!);
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [backgroundMediaLoaded, setBackgroundMediaLoaded] = useState<boolean>(false);
   const [backgroundOverscan, setBackgroundOverscan] = useState<number>(overscan !== undefined ? overscan : 0);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>();
-  const [showCanvas, setShowCanvas] = useState<boolean>(show && scroll);
+  const [showCanvas, setShowCanvas] = useState<boolean>(
+    (show === BackgroundVisibility.all || show === BackgroundVisibility.canvas) && scroll
+  );
 
   useEffect(() => {
-    setShowCanvas(scroll && show);
+    setShowCanvas(show === BackgroundVisibility.all || show === BackgroundVisibility.canvas);
   }, [scroll, show]);
 
   useEffect(() => {
@@ -137,24 +147,16 @@ export default function Background(props: BackgroundProps) {
     };
   }, [resize, paintBackground]);
 
-  const containerStyle: React.CSSProperties =
-    scroll !== true && show === true
-      ? {
-          backgroundImage: `url(${url})`,
-          backgroundColor: color,
-        }
-      : {};
-  const contentStyle: React.CSSProperties = scroll ? { position: 'relative' } : {};
+  const containerStyle: React.CSSProperties = {
+    backgroundImage:
+      show === BackgroundVisibility.all || show === BackgroundVisibility.backgroundImage ? `url(${url})` : 'none',
+    backgroundColor: BackgroundVisibility.all || show === BackgroundVisibility.backgroundColor ? color : 'transparent',
+  };
+  const contentStyle: React.CSSProperties = { position: 'relative' };
 
   return (
     <div className={classNames.container} style={containerStyle} ref={parentContainerRef}>
-      {
-        <canvas
-          className={classNames.canvas}
-          ref={canvasRef}
-          style={{ display: showCanvas ? 'block' : 'none' }}
-        ></canvas>
-      }
+      <canvas className={classNames.canvas} ref={canvasRef} style={{ display: showCanvas ? 'block' : 'none' }}></canvas>
       <div className={classNames.content} style={contentStyle}>
         {children}
       </div>

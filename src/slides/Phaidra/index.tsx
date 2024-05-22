@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import classNames from './styles.module.css';
 import Background from './components/background';
 import BackgroundImage from './images/background.webp';
-import SlideBackground from '../../components/background';
+import SlideBackground, { BackgroundVisibility } from '../../components/background';
 import { config } from '../../data/config';
 import debounce from 'debounce';
 import Year from '../../components/year/year';
@@ -38,8 +38,8 @@ export default function Phaidra() {
     <SlideBackground
       url={BackgroundImage}
       color={showFullContent ? Colors.Transparent.toHexString : Colors.Black.toHexString}
-      scroll
-      show={!showFullContent}
+      scroll={window.innerWidth < config.mobileWaxWidth}
+      show={!showFullContent ? BackgroundVisibility.canvas : BackgroundVisibility.backgroundColor}
     >
       <div className={classNames.container} ref={slideContainerRef}>
         {showFullContent && <Background slideContainer={slideContainer} />}

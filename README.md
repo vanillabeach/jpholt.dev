@@ -22,6 +22,7 @@ The following resources were created by others for free, and deserve attribution
 
 #### Art/Media
 
-- BMG Soundwave : Art modified from original by [Hati Royani](https://www.vecteezy.com/vector-art/580041-sound-waves-vector-illustration)
+- Phaidra Line Art : Art sourced from [the Phaidra website](https://phaidra.ai)
 - Channel 4 Logo : Art modified from original by [Ian Downson](https://sketchfab.com/3d-models/3d-channel-4-uk-logo-a87a47642fae40839ac43ece29112390)
 - Symbian sketches : Art modified from original by [The Symbian Foundation](https://www.flickr.com/photos/symbianfoundation/)
+- BMG Soundwave : Art modified from original by [Hati Royani](https://www.vecteezy.com/vector-art/580041-sound-waves-vector-illustration)

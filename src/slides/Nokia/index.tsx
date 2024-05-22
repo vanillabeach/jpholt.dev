@@ -34,7 +34,11 @@ export default function Nokia() {
   }, [parentContainer, parentContainerRef]);
 
   return (
-    <Background url={BackgroundImage} color={Colors.Black.toHexString} scroll>
+    <Background
+      url={BackgroundImage}
+      color={Colors.Black.toHexString}
+      scroll={window.innerWidth < config.mobileWaxWidth}
+    >
       <div className={classNames.container}>
         <div className={classNames.content}>
           <section className={classNames.copyContainer}>
