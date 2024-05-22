@@ -16,6 +16,9 @@
 
 .background {
   height: 50%;
+  @media (max-width: 500px) and (max-height: 950px) {
+    opacity: 0.4;
+  }
 }
 
 .content {
@@ -40,7 +43,7 @@
 .content .copy {
   flex: 2;
   @media (max-width: 500px) and (max-height: 950px) {
-    margin-top: -33%;
+    margin-top: -85%;
   }
   @media (min-width: 1500px) and (max-height: 950px) {
     flex: 3;

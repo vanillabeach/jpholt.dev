@@ -46,7 +46,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
             <nav className={classNames.navigation}>
               <ul>
                 {companies.map((company, index) => (
-                  <li>
+                  <li key={company.id}>
                     <a
                       href={`#${company.url}`}
                       key={`${index}-${company.id}`}
@@ -63,7 +63,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
               </ul>
               <ul>
                 {links.map((link, index) => (
-                  <li>
+                  <li key={link.id}>
                     <a href={link.url} key={`${index}-${link.id}`} target={link.newTab ? '_blank' : undefined}>
                       <span
                         className={classNames.listBullet}

@@ -41,8 +41,6 @@ export default function Background(props: BackgroundProps) {
       const background = new Image();
       background.src = url;
       background.onload = () => {
-        console.log('image loaded from', url, parentContainer);
-
         parentContainer.classList.add(classNames.show);
       };
     }
