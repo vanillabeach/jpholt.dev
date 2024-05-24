@@ -66,6 +66,10 @@
 
 .selected.show {
   top: calc(var(--nav-bar-height) - 10px);
+
+  @media screen and (min-width: 1280px) {
+    top: calc(var(--nav-bar-height));
+  }
 }
 
 .maxName {

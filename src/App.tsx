@@ -37,13 +37,19 @@ function App() {
     }
   }, [currentSlide]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      document.body.classList.add('show');
+    }, 500);
+  });
+
   const handleNavigation = (id: string): void => {
     setCurrentSlide(id);
     scrollTo(currentSlide);
   };
 
   return (
-    <>
+    <div className={classNames.app}>
       <NavigationBar items={workPlaces} onNavigate={handleNavigation} currentSlide={currentSlide} />
       <section id="slides" className={classNames.portfolio}>
         <Slide id="">
@@ -71,7 +77,7 @@ function App() {
           <BMG />
         </Slide>
       </section>
-    </>
+    </div>
   );
 }
 

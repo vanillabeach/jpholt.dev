@@ -54,6 +54,11 @@
   flex: 1;
 }
 
+.divider {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .foreground {
   z-index: 2;
   height: 100%;
@@ -105,7 +110,8 @@
   margin-top: 1rem;
 }
 
-.navigation > ul a {
+.navigation > ul > li > a,
+.multiLinks {
   display: flex;
   flex-direction: row;
   align-items: center;

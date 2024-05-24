@@ -46,30 +46,16 @@ export const links = [
   },
   {
     id: 'download-cv',
-    text: 'Download my Résumé / CV',
+    text: 'Download Résumé / CV',
     url: '/resources/john-paul-holt.pdf',
-    bullet: '▽',
+    bullet: '☆',
     newTab: true,
   },
   {
     id: 'view-artwork',
-    text: 'View my Artwork portfolio',
+    text: 'View Artwork',
     url: 'https://dribbble.com/vanillabeach',
     bullet: '☆',
     newTab: true,
-  },
-  {
-    id: 'linkedin',
-    text: 'View my LinkedIn profile',
-    url: 'https://www.linkedin.com/in/jpholt/',
-    bullet: '☆',
-    newTab: true,
-  },
-  {
-    id: 'contact',
-    text: 'Contact me',
-    url: 'mailto:john@jpholt.dev',
-    bullet: '☆',
-    newTab: false,
   },
 ];

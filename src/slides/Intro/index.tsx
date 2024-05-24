@@ -36,7 +36,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
             <header>
               <h1 className={`text-5xl font-medium ${classNames.header1}`}>John-Paul Holt</h1>
               <h2 className={`text-2xl font-medium ${classNames.header2}`}>
-                Web Development | UX Engineering | Prototyping
+                Expert Web Development | UX Engineering | Prototyping
               </h2>
               <p className={classNames.responsiveMessage}>
                 This website is optimised for a laptop or tablet device. It will also show more visuals on a phone in
@@ -48,6 +48,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
                 {companies.map((company, index) => (
                   <li key={company.id}>
                     <a
+                      rel="noreferrer"
                       href={`#${company.url}`}
                       key={`${index}-${company.id}`}
                       onClick={(ev) => {
@@ -55,7 +56,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
                         onNavigate(company.url);
                       }}
                     >
-                      <span className={classNames.listBullet}>▷</span>
+                      <span className={classNames.listBullet}>//</span>
                       <span>{company.name}</span>
                     </a>
                   </li>
@@ -64,7 +65,12 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
               <ul>
                 {links.map((link, index) => (
                   <li key={link.id}>
-                    <a href={link.url} key={`${index}-${link.id}`} target={link.newTab ? '_blank' : undefined}>
+                    <a
+                      rel="noreferrer"
+                      href={link.url}
+                      key={`${index}-${link.id}`}
+                      target={link.newTab ? '_blank' : undefined}
+                    >
                       <span
                         className={classNames.listBullet}
                         style={{ marginTop: link.bullet === '▽' ? '0.1rem' : '0' }}
@@ -75,6 +81,18 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
                     </a>
                   </li>
                 ))}
+                <li className={classNames.multiLinks}>
+                  <span className={classNames.listBullet}>☆</span>
+                  <span>
+                    <a rel="noreferrer" href="mailto:john@jpholt.dev">
+                      Email
+                    </a>
+                    <span className={classNames.divider}>|</span>
+                    <a rel="noreferrer" href="https://www.linkedin.com/in/jpholt/" target="_blank">
+                      LinkedIn
+                    </a>
+                  </span>
+                </li>
               </ul>
             </nav>
           </section>
