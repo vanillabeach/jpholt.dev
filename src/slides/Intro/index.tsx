@@ -91,6 +91,10 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
                     <a rel="noreferrer" href="https://www.linkedin.com/in/jpholt/" target="_blank">
                       LinkedIn
                     </a>
+                    <span className={classNames.divider}>|</span>
+                    <a rel="noreferrer" href="https://github.com/vanillabeach" target="_blank">
+                      GitHub
+                    </a>
                   </span>
                 </li>
               </ul>

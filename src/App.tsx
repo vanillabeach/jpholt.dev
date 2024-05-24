@@ -40,7 +40,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       document.body.classList.add('show');
-    }, 500);
+    }, 250);
   });
 
   const handleNavigation = (id: string): void => {
