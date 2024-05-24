@@ -35,7 +35,7 @@ export default function Channel4() {
   return (
     <Background
       url={BackgroundImage}
-      color={showFullContent ? Colors.White.toHexString : Colors.Transparent.toHexString}
+      color={Colors.White.toHexString}
       show={showFullContent ? BackgroundVisibility.backgroundColor : BackgroundVisibility.canvas}
       scroll={window.innerWidth < config.mobileWaxWidth}
     >

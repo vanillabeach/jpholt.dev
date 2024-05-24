@@ -69,7 +69,7 @@
     padding-right: 0;
   }
 
-  @media (min-height: 750px) {
+  @media (min-height: 690px) {
     align-items: center;
   }
 }
