@@ -71,7 +71,6 @@
 .copyContainer {
   flex: 1;
   width: 100%;
-  padding-left: 12px;
   display: flex;
   padding-top: 24px;
   padding-bottom: 24px;

@@ -22,7 +22,7 @@
 }
 
 .content {
-  max-width: 750px;
+  max-width: 700px;
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -32,7 +32,8 @@
   box-sizing: border-box;
 
   @media (max-width: 500px) {
-    padding: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   @media (min-width: 1500px) and (min-height: 950px) {
