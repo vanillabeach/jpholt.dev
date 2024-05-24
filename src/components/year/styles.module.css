@@ -3,6 +3,10 @@
 .date {
   font-family: 'Krona One';
   font-size: 300%;
+
+  @media (min-width: 1280px) {
+    font-size: 400%;
+  }
 }
 
 .black {

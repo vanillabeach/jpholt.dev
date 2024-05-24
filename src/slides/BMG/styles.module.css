@@ -93,6 +93,10 @@
 .title {
   font-size: 2rem;
 
+  @media (min-width: 1280px) {
+    font-size: 2.5rem;
+  }
+
   @media (min-width: 1500px) and (min-height: 950px) {
     font-size: 3rem;
     margin-bottom: 2rem;
