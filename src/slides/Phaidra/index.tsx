@@ -86,7 +86,7 @@ export default function Phaidra() {
               </p>
               <p>
                 My main contributions included building additional UI components for the charting system, implementing a
-                comprehensive e2e testing system, and reviewing/fixing code issues. The portal has consistently met
+                comprehensive E2E testing system, and reviewing/fixing code issues. The portal has consistently met
                 expectations and has recently undergone addtional expansion based on increased confidence.
               </p>
             </div>
