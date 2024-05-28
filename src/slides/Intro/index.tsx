@@ -3,13 +3,14 @@ import Sparkles from './components/sparkles';
 
 import { companies, links } from './data';
 import classNames from './styles.module.css';
+import { isFirefox } from '../../utils';
 
 export type IntroProps = {
   animate?: boolean;
   onNavigate: (id: string) => void;
 };
 
-export default function Intro({ animate = true, onNavigate }: IntroProps) {
+export default function Intro({ animate = !isFirefox(), onNavigate }: IntroProps) {
   const [scrollY, setScrollY] = useState<number>(0);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Intro({ animate = true, onNavigate }: IntroProps) {
   return (
     <div className={classNames.container}>
       <div className={classNames.background} style={{ top: `${scrollY}px` }}>
-        {animate && <Sparkles backgroundColor="#ffffff" />}
+        {<Sparkles backgroundColor="#ffffff" autoplay={animate} />}
       </div>
       <div className={classNames.foreground}>
         <div className={classNames.content}>

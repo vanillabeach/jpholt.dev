@@ -1,8 +1,10 @@
 import debounce from 'debounce';
 import Point from './point';
 import { isWithinViewport, decimalToHexString, isAndroid, isFirefox } from '../../../../utils';
+import { colors } from './colors';
 
 export interface SparkleArgs {
+  fillPolygons?: boolean;
   backgroundColor?: string;
   canvasElement: HTMLCanvasElement;
   parentContainer: HTMLElement;
@@ -11,21 +13,25 @@ export interface SparkleArgs {
   distanceThreshold: number;
   resolution: number;
   speedRange: number;
+  autoplay?: boolean;
 }
 
 export default class Sparkle {
-  backgroundColor?: string;
+  fillPolygons?: boolean;
+  backgroundColor: string;
   canvasElement: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
   distanceThreshold: number;
   colorA: number[];
   colorB: number[];
+  colorRange: string[];
   intervalId: number;
   numberOfPoints: number;
   parentContainer: HTMLElement;
   pointsArray: Point[];
   resolution: number;
   speedRange: number;
+  autoplay: boolean;
 
   static getNumberOfPoints(canvasElement: HTMLCanvasElement) {
     const throttle = 2500;
@@ -39,17 +45,20 @@ export default class Sparkle {
       console.log('error, cannot find canvas!');
     }
 
+    this.fillPolygons = args.fillPolygons === true;
     this.numberOfPoints = Sparkle.getNumberOfPoints(this.canvasElement);
     this.colorA = args.colorA;
     this.colorB = args.colorB;
+    this.colorRange = colors.reverse();
     this.distanceThreshold = args.distanceThreshold;
-    this.canvasContext = args.canvasElement.getContext('2d')!;
+    this.canvasContext = args.canvasElement.getContext('2d', { alpha: true })!;
     this.parentContainer = args.parentContainer;
     this.resolution = args.resolution || 1;
     this.speedRange = args.speedRange || 1;
     this.intervalId = -1;
     this.pointsArray = [];
     this.backgroundColor = args.backgroundColor || '#222222';
+    this.autoplay = args.autoplay !== false;
 
     this.setSize();
     this.start();
@@ -90,19 +99,21 @@ export default class Sparkle {
     pointBy: number,
     pointCx: number,
     pointCy: number,
-    intensity: number,
-    colorToggle: boolean
+    intensity: number
   ) {
-    const ctx = this.canvasContext;
     const alpha = decimalToHexString(Math.round(intensity * 100));
-    ctx.strokeStyle = '#000000' + alpha;
+    const ctx = this.canvasContext;
+    ctx.strokeStyle = this.fillPolygons ? '#00000000' : `#000000${alpha}`;
     ctx.beginPath();
     ctx.moveTo(pointAx, pointAy);
     ctx.lineTo(pointBx, pointBy);
     ctx.lineTo(pointCx, pointCy);
     ctx.stroke();
+    if (this.fillPolygons === true) {
+      ctx.fillStyle = `${this.colorRange[Math.round(intensity * 255)]}${alpha}`;
+      ctx.fill();
+    }
     ctx.closePath();
-    //ctx.fill();
   }
 
   animate() {
@@ -116,7 +127,7 @@ export default class Sparkle {
       for (let pointB of this.pointsArray) {
         const abx = pointA.x - pointB.x;
         const aby = pointA.y - pointB.y;
-        const distanceAB = Math.sqrt(abx * abx + aby * aby);
+        const distanceAB = Math.round(Math.sqrt(abx * abx + aby * aby));
         if (distanceAB > distanceThreshold) {
           continue;
         }
@@ -124,21 +135,21 @@ export default class Sparkle {
         for (let pointC of this.pointsArray) {
           const acx = pointA.x - pointC.x;
           const acy = pointA.y - pointC.y;
-          const distanceAC = Math.sqrt(acx * acx + acy * acy);
+          const distanceAC = Math.round(Math.sqrt(acx * acx + acy * acy));
           if (distanceAC > distanceThreshold) {
             continue;
           }
 
           const bcx = pointB.x - pointC.x;
           const bcy = pointB.y - pointC.y;
-          const distanceBC = Math.sqrt(bcx * bcx + bcy * bcy);
+          const distanceBC = Math.round(Math.sqrt(bcx * bcx + bcy * bcy));
           if (distanceBC > distanceThreshold) {
             continue;
           }
           const longestDistance = [distanceAB, distanceAC, distanceBC].reduce((x, y) => Math.max(x, y));
           const intensity = 1 - longestDistance / distanceThreshold;
 
-          this.drawVector(pointA.x, pointA.y, pointB.x, pointB.y, pointC.x, pointC.y, intensity, index % 2 === 0);
+          this.drawVector(pointA.x, pointA.y, pointB.x, pointB.y, pointC.x, pointC.y, intensity);
         }
       }
 
@@ -151,7 +162,12 @@ export default class Sparkle {
   }
 
   paintBackground() {
-    this.canvasElement.width = this.canvasElement.width;
+    if (isFirefox() === false) {
+      this.canvasElement.width = this.canvasElement.width;
+      return;
+    }
+    this.canvasContext.fillStyle = this.backgroundColor;
+    this.canvasContext.fillRect(0, 0, this.canvasElement.offsetWidth * 2, this.canvasElement.offsetHeight * 2);
   }
 
   setSize() {
@@ -164,7 +180,9 @@ export default class Sparkle {
   start() {
     this.intervalId = window.requestAnimationFrame(() => {
       this.animate();
-      this.start();
+      if (this.autoplay) {
+        this.start();
+      }
     });
   }
 

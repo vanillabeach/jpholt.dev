@@ -15,8 +15,9 @@ import BMG from './slides/BMG';
 import { workPlaces } from './data/work';
 
 import classNames from './styles.module.css';
+import { isFirefox } from './utils';
 
-const animate = true;
+const animate = !isFirefox();
 
 function App() {
   const [currentSlide, setCurrentSlide] = useState<string>(document.location.hash.substring(1));

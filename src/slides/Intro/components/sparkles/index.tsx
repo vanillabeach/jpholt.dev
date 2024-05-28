@@ -5,9 +5,11 @@ import Sparkle from './sparkle';
 
 export interface SparklesProps {
   backgroundColor: string;
+  fillPolygons?: boolean;
+  autoplay?: boolean;
 }
 
-export default function Sparkles({ backgroundColor }: SparklesProps) {
+export default function Sparkles({ backgroundColor, fillPolygons = true, autoplay = true }: SparklesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [sparkle, setSparkle] = useState<Sparkle>(null!);
@@ -15,7 +17,7 @@ export default function Sparkles({ backgroundColor }: SparklesProps) {
   const baseArgs = useMemo(
     () => ({
       backgroundColor: backgroundColor,
-      distanceThreshold: 100,
+      distanceThreshold: 110,
       resolution: 0.5,
       speedRange: 1,
     }),
@@ -30,10 +32,12 @@ export default function Sparkles({ backgroundColor }: SparklesProps) {
     if (!sparkle) {
       setSparkle(
         new Sparkle({
+          autoplay,
+          fillPolygons,
           parentContainer: containerRef.current,
           canvasElement: canvasRef.current,
-          colorA: [255, 255, 255],
-          colorB: [192, 192, 212],
+          colorA: [0, 255, 255],
+          colorB: [255, 0, 255],
           ...baseArgs,
         })
       );
@@ -42,7 +46,7 @@ export default function Sparkles({ backgroundColor }: SparklesProps) {
 
   return (
     <div className={classNames.container} ref={containerRef}>
-      <canvas className={classNames.canvas} ref={canvasRef}></canvas>
+      <canvas className={classNames.canvas} ref={canvasRef} style={{ transform: 'scale3d(1,1,1)' }}></canvas>
       <div className={classNames.overlay} />
     </div>
   );
