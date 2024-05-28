@@ -67,28 +67,22 @@ export default class Sparkle {
   }
 
   bindEvents() {
-    window.addEventListener('resize', debounce(this.setSize.bind(this), 100));
-    window.addEventListener('scroll', () => {
-      if (isAndroid() && isFirefox()) {
-        this.stop();
-        return;
+    const handleResize = () => {
+      this.setSize();
+      if (!this.isPlaying()) {
+        this.paint();
       }
-
+    };
+    window.addEventListener('resize', debounce(handleResize, 100));
+    window.addEventListener('scroll', () => {
       if (!isWithinViewport(this.canvasElement)) {
-        if (this.intervalId !== -1) {
+        if (this.isPlaying()) {
           this.stop();
         }
       } else {
-        if (this.intervalId === -1) {
+        if (this.autoplay && !this.isPlaying()) {
           this.start();
         }
-      }
-    });
-
-    window.addEventListener('scrollend', () => {
-      if (isAndroid() && isFirefox()) {
-        this.start();
-        return;
       }
     });
   }
@@ -120,7 +114,7 @@ export default class Sparkle {
     ctx.closePath();
   }
 
-  animate() {
+  paint() {
     const maxWidth = Number(this.canvasElement.offsetWidth) / this.resolution;
     const maxHeight = Number(this.canvasElement.offsetHeight) / this.resolution;
     const distanceThreshold = this.distanceThreshold;
@@ -165,6 +159,10 @@ export default class Sparkle {
     });
   }
 
+  isPlaying() {
+    return this.intervalId !== -1;
+  }
+
   paintBackground() {
     if (isFirefox() === false) {
       this.canvasElement.width = this.canvasElement.width;
@@ -177,16 +175,22 @@ export default class Sparkle {
   setSize() {
     this.canvasElement.setAttribute('width', `${this.parentContainer.offsetWidth / this.resolution}`);
     this.canvasElement.setAttribute('height', `${this.parentContainer.offsetHeight / this.resolution}`);
+
     this.numberOfPoints = Sparkle.getNumberOfPoints(this.canvasElement);
     this.resetPoints();
   }
 
   start() {
+    if (this.autoplay === false) {
+      console.log('paint');
+      this.paint();
+      this.stop();
+      return;
+    }
+
     this.intervalId = window.requestAnimationFrame(() => {
-      this.animate();
-      if (this.autoplay) {
-        this.start();
-      }
+      this.paint();
+      this.start();
     });
   }
 
