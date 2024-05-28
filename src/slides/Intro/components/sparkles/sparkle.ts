@@ -2,9 +2,9 @@ import debounce from 'debounce';
 import Point from './point';
 import { isWithinViewport, decimalToHexString, isAndroid, isFirefox } from '../../../../utils';
 import { colors } from './colors';
+import { SparkleType } from './models';
 
 export interface SparkleArgs {
-  fillPolygons?: boolean;
   backgroundColor?: string;
   canvasElement: HTMLCanvasElement;
   parentContainer: HTMLElement;
@@ -14,10 +14,10 @@ export interface SparkleArgs {
   resolution: number;
   speedRange: number;
   autoplay?: boolean;
+  sparkleType: SparkleType;
 }
 
 export default class Sparkle {
-  fillPolygons?: boolean;
   backgroundColor: string;
   canvasElement: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
@@ -32,6 +32,7 @@ export default class Sparkle {
   resolution: number;
   speedRange: number;
   autoplay: boolean;
+  sparkleType: SparkleType;
 
   static getNumberOfPoints(canvasElement: HTMLCanvasElement) {
     const throttle = 2500;
@@ -45,7 +46,6 @@ export default class Sparkle {
       console.log('error, cannot find canvas!');
     }
 
-    this.fillPolygons = args.fillPolygons === true;
     this.numberOfPoints = Sparkle.getNumberOfPoints(this.canvasElement);
     this.colorA = args.colorA;
     this.colorB = args.colorB;
@@ -59,6 +59,7 @@ export default class Sparkle {
     this.pointsArray = [];
     this.backgroundColor = args.backgroundColor || '#222222';
     this.autoplay = args.autoplay !== false;
+    this.sparkleType = args.sparkleType;
 
     this.setSize();
     this.start();
@@ -103,14 +104,17 @@ export default class Sparkle {
   ) {
     const alpha = decimalToHexString(Math.round(intensity * 100));
     const ctx = this.canvasContext;
-    ctx.strokeStyle = this.fillPolygons ? '#00000000' : `#000000${alpha}`;
+    const color = `${this.colorRange[Math.round(intensity * 255)]}${alpha}`;
+    ctx.strokeStyle = color;
     ctx.beginPath();
     ctx.moveTo(pointAx, pointAy);
     ctx.lineTo(pointBx, pointBy);
     ctx.lineTo(pointCx, pointCy);
-    ctx.stroke();
-    if (this.fillPolygons === true) {
-      ctx.fillStyle = `${this.colorRange[Math.round(intensity * 255)]}${alpha}`;
+    if (this.sparkleType === SparkleType.Lines || this.sparkleType === SparkleType.PolygonAndLines) {
+      ctx.stroke();
+    }
+    if (this.sparkleType === SparkleType.Polygon || this.sparkleType === SparkleType.PolygonAndLines) {
+      ctx.fillStyle = color;
       ctx.fill();
     }
     ctx.closePath();
