@@ -40,7 +40,7 @@ function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      document.body.classList.add('show');
+      document.getElementById('root')?.classList.add('show');
     }, 250);
   });
 

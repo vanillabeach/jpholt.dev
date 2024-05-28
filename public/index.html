@@ -33,6 +33,18 @@
     <!-- Apple -->
     <link rel="apple-touch-icon" href="https://jpholt.dev/favicon.png" />
 
+    <!-- CSS to ensure page fades in correctly on Firefox -->
+    <style>
+      .app-root {
+        opacity: 0;
+        transition: opacity cubic-bezier(0.6, 0.04, 0.98, 0.335) 200ms;
+      }
+
+      .app-root.show {
+        opacity: 1;
+      }
+    </style>
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>JP Holt</title>
   </head>
@@ -41,6 +53,6 @@
       You need to enable JavaScript to run this website. If you cannot access it,
       <a href="https://jpholt.dev/resources/john-paul-holt.pdf">click here</a> for my résumé.
     </noscript>
-    <div id="root"></div>
+    <div id="root" class="app-root"></div>
   </body>
 </html>
