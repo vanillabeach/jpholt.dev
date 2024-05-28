@@ -1,15 +1,23 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from './styles.module.css';
 import Sparkle from './sparkle';
+import { SparkleType } from './models';
 
 export interface SparklesProps {
   backgroundColor: string;
   fillPolygons?: boolean;
   autoplay?: boolean;
+  sparkleType?: SparkleType;
+  style?: CSSProperties;
 }
 
-export default function Sparkles({ backgroundColor, fillPolygons = true, autoplay = true }: SparklesProps) {
+export default function Sparkles({
+  backgroundColor,
+  autoplay = true,
+  sparkleType = SparkleType.Polygon,
+  style,
+}: SparklesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [sparkle, setSparkle] = useState<Sparkle>(null!);
@@ -33,11 +41,11 @@ export default function Sparkles({ backgroundColor, fillPolygons = true, autopla
       setSparkle(
         new Sparkle({
           autoplay,
-          fillPolygons,
           parentContainer: containerRef.current,
           canvasElement: canvasRef.current,
           colorA: [0, 255, 255],
           colorB: [255, 0, 255],
+          sparkleType,
           ...baseArgs,
         })
       );
@@ -45,8 +53,8 @@ export default function Sparkles({ backgroundColor, fillPolygons = true, autopla
   }, [canvasRef, containerRef, baseArgs, sparkle]);
 
   return (
-    <div className={classNames.container} ref={containerRef}>
-      <canvas className={classNames.canvas} ref={canvasRef} style={{ transform: 'scale3d(1,1,1)' }}></canvas>
+    <div className={classNames.container} ref={containerRef} style={style}>
+      <canvas className={classNames.canvas} ref={canvasRef}></canvas>
       <div className={classNames.overlay} />
     </div>
   );

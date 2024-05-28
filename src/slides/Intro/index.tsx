@@ -4,6 +4,7 @@ import Sparkles from './components/sparkles';
 import { companies, links } from './data';
 import classNames from './styles.module.css';
 import { isFirefox } from '../../utils';
+import { SparkleType } from './components/sparkles/models';
 
 export type IntroProps = {
   animate?: boolean;
@@ -28,6 +29,17 @@ export default function Intro({ animate = !isFirefox(), onNavigate }: IntroProps
     <div className={classNames.container}>
       <div className={classNames.background} style={{ top: `${scrollY}px` }}>
         {<Sparkles backgroundColor="#ffffff" autoplay={animate} />}
+        {isFirefox() && (
+          <Sparkles
+            backgroundColor="#ffffff"
+            autoplay={false}
+            sparkleType={SparkleType.Lines}
+            style={{
+              zIndex: 1,
+              mixBlendMode: 'multiply',
+            }}
+          />
+        )}
       </div>
       <div className={classNames.foreground}>
         <div className={classNames.content}>
