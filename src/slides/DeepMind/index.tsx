@@ -41,8 +41,8 @@ export default function DeepMind() {
       scroll={window.innerWidth < config.mobileWaxWidth}
       show={showFullContent ? BackgroundVisibility.backgroundImage : BackgroundVisibility.canvas}
     >
-      <div className={classNames.container} ref={slideContainerRef}>
-        <div className={classNames.content}>
+      <div className={classNames.container}>
+        <div className={classNames.content} ref={slideContainerRef}>
           <section className={classNames.copyContainer}>
             <div className={classNames.copy}>
               <Year color="blue">2013</Year>

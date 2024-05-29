@@ -139,6 +139,9 @@ export default function DeepMindCubes(props: DeepMindCubesProps) {
       const canvasContainer = canvasContainerRef.current;
 
       renderer.setSize(0, 0);
+      canvasContainer.style.width = '0px';
+      canvasContainer.style.height = '0px';
+
       requestAnimationFrame(() => {
         const { offsetWidth, offsetHeight } = slideContainer;
         const width = offsetWidth / 2;
