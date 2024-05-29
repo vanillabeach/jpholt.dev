@@ -55,7 +55,7 @@ export default function BMG() {
                   Big Six
                 </a>
                 " media companies, before merging with Sony in 2004. It signed and colloborated with a wide range of
-                artists, from Kylie Minogue to Bustah Rhymes, from Elvis to Britney Spears.
+                artists, from Kylie Minogue to Busta Rhymes, from Elvis to Britney Spears.
               </p>
               <p className="mb-3">
                 My role was to build the frontend for their "Workflow" system - a web app designed to manage the entire
