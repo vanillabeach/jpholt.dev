@@ -144,7 +144,7 @@ export default class Sparkle {
           if (distanceBC > distanceThreshold) {
             continue;
           }
-          const longestDistance = [distanceAB, distanceAC, distanceBC].reduce((x, y) => Math.max(x, y));
+          const longestDistance = Math.max(distanceAB, distanceAC, distanceBC);
           const intensity = 1 - longestDistance / distanceThreshold;
 
           this.drawVector(pointA.x, pointA.y, pointB.x, pointB.y, pointC.x, pointC.y, intensity);
