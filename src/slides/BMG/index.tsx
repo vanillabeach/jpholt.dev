@@ -50,7 +50,7 @@ export default function BMG() {
                   className={classNames.link}
                   target="_blank"
                   rel="noreferrer"
-                  href="https://www.youtube.com/watch?v=8iR8VNchpoE"
+                  href="https://www.refinedmelody.com/blog/monopolization-in-music-how-the-big-six-became-the-big-three"
                 >
                   Big Six
                 </a>
